@@ -1,0 +1,2166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WithYou - Connecting the Daily Dots</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --pastel-blue: #a8d8ea;
+            --pastel-green: #c7f0d8;
+            --pastel-lavender: #d8c7ff;
+            --pastel-yellow: #fff9c4;
+            --pastel-pink: #ffd6e7;
+            --soft-white: #f9f7f7;
+            --soft-gray: #e3e3e3;
+            --text-color: #2d4059;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e3e7ed 100%);
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Page Container */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 80px 20px 20px;
+            animation: fadeIn 0.8s ease;
+            width: 100%;
+        }
+
+        .page.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Header and Navigation */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.95);
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .logo-main {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--pastel-lavender);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: 1px;
+        }
+
+        .logo-tagline {
+            font-size: 0.9rem;
+            color: #6c757d;
+            font-weight: 400;
+            margin-top: 2px;
+            font-style: italic;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: var(--pastel-blue);
+            color: var(--text-color);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 1.3rem;
+        }
+
+        .btn-green {
+            background-color: var(--pastel-green);
+        }
+
+        .btn-lavender {
+            background-color: var(--pastel-lavender);
+        }
+
+        .btn-pink {
+            background-color: var(--pastel-pink);
+        }
+
+        /* Companion Character */
+        .companion {
+            width: 140px;
+            height: 140px;
+            background-color: var(--pastel-yellow);
+            border-radius: 50%;
+            position: relative;
+            margin: 20px auto;
+            animation: gentleBounce 4s infinite ease-in-out;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border: 5px solid white;
+        }
+
+        .companion:before, .companion:after {
+            content: '';
+            position: absolute;
+            background-color: var(--text-color);
+            border-radius: 50%;
+        }
+
+        .companion:before {
+            width: 28px;
+            height: 28px;
+            top: 40px;
+            left: 35px;
+        }
+
+        .companion:after {
+            width: 28px;
+            height: 28px;
+            top: 40px;
+            right: 35px;
+        }
+
+        .companion-smile {
+            position: absolute;
+            width: 60px;
+            height: 30px;
+            border-bottom: 10px solid var(--pastel-pink);
+            border-radius: 0 0 50px 50px;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes gentleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Text Containers */
+        .text-container {
+            max-width: 700px;
+            text-align: center;
+            margin: 20px 0;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--pastel-lavender);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--pastel-blue);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--pastel-green);
+        }
+
+        p {
+            font-size: 1.25rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            color: var(--pastel-lavender);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        /* Game Areas */
+        .game-area {
+            width: 100%;
+            max-width: 900px;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Level 1 - Shapes */
+        .shapes-game-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .shapes-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .shape-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .shape-outline {
+            width: 120px;
+            height: 120px;
+            border: 5px dashed var(--pastel-blue);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .shape-outline:hover {
+            border-color: var(--pastel-lavender);
+            transform: scale(1.05);
+        }
+
+        .shape {
+            width: 110px;
+            height: 110px;
+            border-radius: 15px;
+            cursor: grab;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .shape:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .shape.dragging {
+            opacity: 0.8;
+            transform: scale(1.1);
+            cursor: grabbing;
+        }
+
+        .shape.circle, .shape-outline.circle {
+            border-radius: 50%;
+        }
+
+        .shape.triangle {
+            width: 0;
+            height: 0;
+            border-left: 55px solid transparent;
+            border-right: 55px solid transparent;
+            border-bottom: 95px solid;
+            background-color: transparent !important;
+        }
+
+        .shape.star {
+            background-color: transparent !important;
+            position: relative;
+            width: 110px;
+            height: 110px;
+        }
+
+        .shape.star:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--pastel-yellow);
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        .shape-heart {
+            background-color: transparent !important;
+            position: relative;
+            width: 110px;
+            height: 110px;
+        }
+
+        .shape-heart:before, .shape-heart:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 95px;
+            background: var(--pastel-pink);
+            border-radius: 50px 50px 0 0;
+        }
+
+        .shape-heart:before {
+            left: 25px;
+            transform: rotate(-45deg);
+        }
+
+        .shape-heart:after {
+            left: 25px;
+            transform: rotate(45deg);
+            transform-origin: 0% 100%;
+        }
+
+        .shape-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-top: 10px;
+        }
+
+        /* Level 2 - Clock */
+        .clock-game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .clock-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .clock {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background-color: var(--soft-white);
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 12px solid var(--pastel-blue);
+            margin: 20px 0;
+            cursor: pointer;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .clock-center {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: var(--text-color);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        .hour-hand, .minute-hand {
+            position: absolute;
+            background-color: var(--text-color);
+            border-radius: 5px;
+            transform-origin: bottom center;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        .hour-hand {
+            width: 10px;
+            height: 80px;
+            top: calc(50% - 80px);
+            z-index: 5;
+        }
+
+        .minute-hand {
+            width: 7px;
+            height: 120px;
+            top: calc(50% - 120px);
+            z-index: 6;
+        }
+
+        .clock-numbers {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            font-weight: bold;
+            font-size: 1.8rem;
+            pointer-events: none;
+        }
+
+        .clock-number {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 1.6rem;
+            color: var(--text-color);
+            pointer-events: none;
+        }
+
+        .time-display {
+            font-size: 2.5rem;
+            margin: 15px 0;
+            background: linear-gradient(135deg, var(--pastel-green), var(--pastel-blue));
+            padding: 15px 30px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .clock-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Level 3 - Social Situations - FIXED COLOR */
+        .situation-container {
+            background: linear-gradient(135deg, var(--pastel-green), var(--pastel-blue));
+            padding: 25px;
+            border-radius: 20px;
+            margin: 20px 0;
+            color: #2d4059 !important; /* Force dark color for visibility */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .situation-container h3 {
+            color: #2d4059 !important; /* Force dark color for the question */
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .option {
+            background-color: var(--pastel-yellow);
+            padding: 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            border: 3px solid transparent;
+        }
+
+        .option:hover {
+            background-color: var(--pastel-pink);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+            border-color: var(--pastel-lavender);
+        }
+
+        .option.selected {
+            background-color: var(--pastel-green);
+            border-color: var(--pastel-blue);
+        }
+
+        /* Calm Corner */
+        .calm-corner {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+        }
+
+        .calm-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pastel-green), var(--pastel-blue));
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .calm-btn:hover {
+            transform: scale(1.15) rotate(15deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .calm-panel {
+            position: fixed;
+            bottom: 120px;
+            right: 25px;
+            width: 350px;
+            background-color: rgba(255, 255, 255, 0.97);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            display: none;
+            z-index: 999;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .calm-panel.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .breathing-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .breathing-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pastel-blue), var(--pastel-lavender));
+            margin: 20px auto;
+            animation: breathe 8s infinite ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes breathe {
+            0%, 100% {
+                transform: scale(1);
+                background: linear-gradient(135deg, var(--pastel-blue), var(--pastel-lavender));
+            }
+            50% {
+                transform: scale(1.4);
+                background: linear-gradient(135deg, var(--pastel-green), var(--pastel-pink));
+            }
+        }
+
+        .sound-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .sound-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pastel-lavender), var(--pastel-pink));
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sound-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .sound-btn.active {
+            background: linear-gradient(135deg, var(--pastel-green), var(--pastel-blue));
+            transform: scale(1.1);
+        }
+
+        /* Feedback Form */
+        .feedback-form {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input, textarea, select {
+            padding: 18px;
+            border-radius: 15px;
+            border: 3px solid var(--pastel-blue);
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.1rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--pastel-lavender);
+            box-shadow: 0 0 0 3px rgba(216, 199, 255, 0.3);
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .stars {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .star {
+            font-size: 2.5rem;
+            color: var(--soft-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .star:hover {
+            transform: scale(1.2);
+        }
+
+        .star.active {
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Progress Indicator */
+        .progress-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 30px 0;
+        }
+
+        .progress-dot {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: var(--soft-gray);
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background-color: var(--pastel-green);
+            transform: scale(1.2);
+            box-shadow: 0 4px 10px rgba(199, 240, 216, 0.5);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            font-size: 1rem;
+            color: #777;
+            max-width: 800px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 15px;
+            }
+           
+            .logo-main {
+                font-size: 1.6rem;
+            }
+           
+            .logo-tagline {
+                font-size: 0.8rem;
+            }
+           
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+            h3 { font-size: 1.4rem; }
+           
+            .game-area {
+                padding: 20px;
+                margin: 15px 0;
+            }
+           
+            .shape, .shape-outline {
+                width: 90px;
+                height: 90px;
+            }
+           
+            .shape-outline {
+                width: 100px;
+                height: 100px;
+            }
+           
+            .shape.triangle {
+                border-left: 45px solid transparent;
+                border-right: 45px solid transparent;
+                border-bottom: 80px solid;
+            }
+           
+            .clock {
+                width: 220px;
+                height: 220px;
+            }
+           
+            .hour-hand {
+                height: 60px;
+                top: calc(50% - 60px);
+            }
+           
+            .minute-hand {
+                height: 90px;
+                top: calc(50% - 90px);
+            }
+           
+            .calm-panel {
+                width: calc(100% - 40px);
+                right: 20px;
+                left: 20px;
+                bottom: 100px;
+            }
+           
+            .options-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Messages */
+        .message {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--pastel-green), var(--pastel-blue));
+            padding: 20px 35px;
+            border-radius: 50px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            z-index: 2000;
+            display: none;
+            animation: slideDown 0.5s ease;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-align: center;
+            max-width: 90%;
+        }
+
+        @keyframes slideDown {
+            from { top: -100px; opacity: 0; }
+            to { top: 100px; opacity: 1; }
+        }
+
+        .message.active {
+            display: block;
+        }
+
+        /* Instructions */
+        .instructions {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 15px 0;
+            font-style: italic;
+            border-left: 5px solid var(--pastel-lavender);
+        }
+
+        /* Success Animation */
+        .success-animation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            animation: pop 0.5s ease;
+            color: var(--pastel-green);
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes pop {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            70% { transform: translate(-50%, -50%) scale(1.2); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-main">WithYou</div>
+            <div class="logo-tagline">With you to walk every step connecting the daily dots</div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn" id="homeBtn"><i class="fas fa-home"></i> Home</button>
+            <button class="btn btn-green" id="calmBtn"><i class="fas fa-spa"></i> Calm Corner</button>
+        </div>
+    </div>
+
+    <!-- Calm Corner (Always Available) -->
+    <div class="calm-corner">
+        <button class="calm-btn" id="calmToggleBtn">
+            <i class="fas fa-spa"></i>
+        </button>
+        <div class="calm-panel" id="calmPanel">
+            <h3>Calm Corner</h3>
+            <p>Take a deep breath. You're doing great.</p>
+           
+            <div class="breathing-container">
+                <div class="breathing-circle" id="breathingCircle">
+                    <span id="breath-text">Breathe In</span>
+                </div>
+            </div>
+           
+            <div class="sound-options">
+                <button class="sound-btn" id="natureSound" title="Nature Sounds">
+                    <i class="fas fa-leaf"></i>
+                </button>
+                <button class="sound-btn" id="fluteSound" title="Krishna's Flute">
+                    <i class="fas fa-music"></i>
+                </button>
+                <button class="sound-btn" id="stopSound" title="Stop Sound">
+                    <i class="fas fa-stop"></i>
+                </button>
+            </div>
+           
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-pink" id="backToMainBtn" style="padding: 10px 20px; font-size: 1rem;">
+                    <i class="fas fa-home"></i> Back to Main
+                </button>
+            </div>
+           
+            <p style="margin-top: 20px; font-size: 1rem; text-align: center;">
+                <i class="fas fa-heart" style="color: var(--pastel-pink);"></i>
+                It's okay to feel overwhelmed. Let's breathe together.
+            </p>
+        </div>
+    </div>
+
+    <!-- Message Display -->
+    <div class="message" id="message"></div>
+
+    <!-- Page 1: Landing Page -->
+    <div class="page active" id="page1">
+        <div class="companion">
+            <div class="companion-smile"></div>
+        </div>
+       
+        <div class="text-container">
+            <h1>WithYou</h1>
+            <p class="highlight">With you to walk every step connecting the daily dots</p>
+            <p>A gentle, friendly space where you can learn and grow at your own pace.</p>
+            <p class="highlight">Remember: You are perfect exactly as you are.</p>
+            <p>Created by: <strong>Vaishnavi Marne (125B1F244)</strong></p>
+        </div>
+       
+        <button class="btn btn-large btn-lavender" id="startBtn">
+            <i class="fas fa-door-open"></i> Enter Safe Space
+        </button>
+       
+        <div class="footer">
+            <p>This app supports comfort and confidence. No pressure, no failure, just gentle learning.</p>
+        </div>
+    </div>
+
+    <!-- Page 2: Introduction -->
+    <div class="page" id="page2">
+        <div class="companion">
+            <div class="companion-smile"></div>
+        </div>
+       
+        <div class="text-container">
+            <h2>Hello Friend!</h2>
+            <p>I'm your companion. I'm here with you as you explore.</p>
+            <div class="instructions">
+                <p><i class="fas fa-check-circle" style="color: var(--pastel-green);"></i> Go at your own pace</p>
+                <p><i class="fas fa-check-circle" style="color: var(--pastel-green);"></i> Take breaks anytime</p>
+                <p><i class="fas fa-check-circle" style="color: var(--pastel-green);"></i> Explore without pressure</p>
+            </div>
+            <p>There are no wrong answers here. Just different ways to learn and grow.</p>
+        </div>
+       
+        <button class="btn btn-large btn-green" id="beginBtn">
+            <i class="fas fa-play"></i> Let's Begin Our Journey
+        </button>
+       
+        <div class="progress-container">
+            <div class="progress-dot active"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+        </div>
+    </div>
+
+    <!-- Page 3: Level 1 - Shape & Place Association -->
+    <div class="page" id="page3">
+        <div class="text-container">
+            <h2>Level 1: Shapes & Their Homes</h2>
+            <p>Every shape has its own special place. Let's help them find their homes!</p>
+            <div class="instructions">
+                <p><i class="fas fa-hand-point-up"></i> Drag each shape to its matching outline</p>
+                <p><i class="fas fa-clock"></i> Take your time. You're doing great.</p>
+            </div>
+        </div>
+       
+        <div class="game-area">
+            <div class="shapes-game-container" id="shapesGameContainer">
+                <!-- Shapes will be generated by JavaScript -->
+            </div>
+           
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-green" id="shuffleShapesBtn">
+                    <i class="fas fa-random"></i> Mix Up Shapes
+                </button>
+                <button class="btn btn-lavender" id="nextLevel1Btn">
+                    <i class="fas fa-arrow-right"></i> Continue to Time
+                </button>
+            </div>
+        </div>
+       
+        <div class="progress-container">
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+        </div>
+    </div>
+
+    <!-- Page 4: Level 2 - Understanding Time -->
+    <div class="page" id="page4">
+        <div class="text-container">
+            <h2>Level 2: Understanding Time</h2>
+            <p>Time helps us plan our day. Let's explore how clocks work together.</p>
+            <div class="instructions">
+                <p><i class="fas fa-hand-pointer"></i> Click and drag the clock hands to set the time</p>
+                <p><i class="fas fa-clock"></i> There's no rush. You can try as many times as you like.</p>
+            </div>
+        </div>
+       
+        <div class="game-area">
+            <div class="clock-game-container">
+                <h3>Set the clock to show:</h3>
+                <div class="time-display" id="timeDisplay">3:00 PM</div>
+               
+                <div class="clock-wrapper">
+                    <div class="clock" id="clock">
+                        <div class="clock-center"></div>
+                        <div class="hour-hand" id="hourHand"></div>
+                        <div class="minute-hand" id="minuteHand"></div>
+                        <div class="clock-numbers" id="clockNumbers"></div>
+                    </div>
+                </div>
+               
+                <div class="clock-controls">
+                    <button class="btn btn-pink" id="newTimeBtn">
+                        <i class="fas fa-redo"></i> New Time
+                    </button>
+                    <button class="btn btn-green" id="checkTimeBtn">
+                        <i class="fas fa-check-circle"></i> Check My Time
+                    </button>
+                </div>
+            </div>
+           
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-lavender" id="nextLevel2Btn">
+                    <i class="fas fa-arrow-right"></i> Continue to Social Situations
+                </button>
+            </div>
+        </div>
+       
+        <div class="progress-container">
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+        </div>
+    </div>
+
+    <!-- Page 5: Level 3 - Social Situations -->
+    <div class="page" id="page5">
+        <div class="text-container">
+            <h2>Level 3: Understanding Social Situations</h2>
+            <p>People react differently in different situations. Let's explore some examples together.</p>
+            <div class="instructions">
+                <p><i class="fas fa-lightbulb"></i> There are no wrong answers, just different choices</p>
+                <p><i class="fas fa-users"></i> Every choice is valid. Different people choose differently.</p>
+            </div>
+        </div>
+       
+        <div class="game-area">
+            <div class="situation-container">
+                <h3 id="situationText">Someone says "Hello!" to you.</h3>
+            </div>
+           
+            <div class="options-container" id="optionsContainer">
+                <!-- Options will be generated by JavaScript -->
+            </div>
+           
+            <div id="situationFeedback" style="text-align: center; margin: 25px 0; padding: 20px; background-color: var(--pastel-yellow); border-radius: 20px; display: none;">
+                <p id="feedbackText" style="font-size: 1.3rem; font-weight: 600;"></p>
+            </div>
+           
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-pink" id="nextSituationBtn">
+                    <i class="fas fa-forward"></i> Try Another Situation
+                </button>
+                <button class="btn btn-green" id="nextLevel3Btn">
+                    <i class="fas fa-check-circle"></i> Continue to Completion
+                </button>
+            </div>
+        </div>
+       
+        <div class="progress-container">
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+            <div class="progress-dot"></div>
+        </div>
+    </div>
+
+    <!-- Page 6: Thank You -->
+    <div class="page" id="page6">
+        <div class="companion">
+            <div class="companion-smile"></div>
+        </div>
+       
+        <div class="text-container">
+            <h2>You Did Amazing!</h2>
+            <p>Thank you for spending this time with me today.</p>
+            <p>You are doing great, and I'm so proud of you.</p>
+            <p class="highlight">Remember: You are perfect exactly as you are.</p>
+            <p>More levels and activities are coming soon to help us learn together!</p>
+        </div>
+       
+        <div style="display: flex; gap: 20px; margin-top: 30px; flex-wrap: wrap; justify-content: center;">
+            <button class="btn btn-lavender" id="feedbackBtn">
+                <i class="fas fa-comment-alt"></i> Share Your Thoughts
+            </button>
+            <button class="btn btn-green" id="restartBtn">
+                <i class="fas fa-redo"></i> Start Again
+            </button>
+        </div>
+       
+        <div class="progress-container">
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+        </div>
+    </div>
+
+    <!-- Page 7: Feedback -->
+    <div class="page" id="page7">
+        <div class="text-container">
+            <h2>Your Feedback Matters</h2>
+            <p>We'd love to hear about your experience. Your thoughts help us make this space better for everyone.</p>
+            <div class="instructions">
+                <p><i class="fas fa-info-circle"></i> All fields are optional. Share only what feels comfortable.</p>
+            </div>
+        </div>
+       
+        <div class="game-area">
+            <form class="feedback-form" id="feedbackForm">
+                <div class="form-group">
+                    <label for="name">Name (optional):</label>
+                    <input type="text" id="name" placeholder="Your name">
+                </div>
+               
+                <div class="form-group">
+                    <label for="email">Email (optional):</label>
+                    <input type="email" id="email" placeholder="your.email@example.com">
+                </div>
+               
+                <div class="form-group">
+                    <label>How did this app make you feel?</label>
+                    <div class="stars" id="ratingStars">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+                    <input type="hidden" id="rating" value="0">
+                </div>
+               
+                <div class="form-group">
+                    <label for="like">What did you like the most? (optional):</label>
+                    <textarea id="like" placeholder="Share what you enjoyed..."></textarea>
+                </div>
+               
+                <div class="form-group">
+                    <label for="suggestions">Any suggestions to make it better? (optional):</label>
+                    <textarea id="suggestions" placeholder="Your ideas to make this better..."></textarea>
+                </div>
+               
+                <div style="text-align: center; margin-top: 30px;">
+                    <button type="submit" class="btn btn-green">
+                        <i class="fas fa-paper-plane"></i> Send Feedback
+                    </button>
+                    <button type="button" class="btn btn-lavender" id="backToThankYouBtn">
+                        <i class="fas fa-arrow-left"></i> Back to Completion
+                    </button>
+                </div>
+            </form>
+           
+            <p style="text-align: center; margin-top: 30px; font-size: 1rem; color: #777;">
+                <i class="fas fa-envelope" style="color: var(--pastel-lavender);"></i>
+                Feedback will be sent to: vaishnavi.marne25@pccoepune.org
+            </p>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="fluteAudio" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-krishna-flute-109.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+   
+    <audio id="natureAudio" loop>
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-forest-birds-1295.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // =============== GLOBAL VARIABLES ===============
+        let currentPage = 1;
+        let activeAudio = null;
+        let isBreathingIn = true;
+        let breathInterval;
+        let currentTimeTarget = { hours: 3, minutes: 0, period: "PM" };
+        let currentSituationIndex = 0;
+        let userRating = 0;
+        let isDraggingClock = false;
+        let draggedHand = null;
+        let shapesPlaced = 0;
+        let totalShapes = 0;
+
+        // =============== PAGE MANAGEMENT ===============
+        function showPage(pageNumber) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+           
+            // Show the requested page
+            document.getElementById(`page${pageNumber}`).classList.add('active');
+            currentPage = pageNumber;
+           
+            // Update progress dots
+            updateProgressDots();
+           
+            // Initialize page-specific functionality
+            initializePage(pageNumber);
+        }
+
+        function updateProgressDots() {
+            const dots = document.querySelectorAll('.progress-dot');
+            dots.forEach((dot, index) => {
+                if (index < currentPage) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        function initializePage(pageNumber) {
+            switch(pageNumber) {
+                case 1: // Landing page
+                    break;
+                case 2: // Introduction page
+                    break;
+                case 3: // Level 1 - Shapes
+                    initializeShapesGame();
+                    break;
+                case 4: // Level 2 - Clock
+                    initializeClockGame();
+                    break;
+                case 5: // Level 3 - Social Situations
+                    initializeSocialSituations();
+                    break;
+                case 6: // Thank You page
+                    break;
+                case 7: // Feedback page
+                    break;
+            }
+        }
+
+        // =============== CALM CORNER FUNCTIONALITY ===============
+        document.getElementById('calmToggleBtn').addEventListener('click', function() {
+            const calmPanel = document.getElementById('calmPanel');
+            calmPanel.classList.toggle('active');
+        });
+
+        document.getElementById('calmBtn').addEventListener('click', function() {
+            const calmPanel = document.getElementById('calmPanel');
+            calmPanel.classList.toggle('active');
+        });
+
+        // Add event listener for Back to Main button
+        document.getElementById('backToMainBtn').addEventListener('click', () => {
+            // Hide the calm panel
+            document.getElementById('calmPanel').classList.remove('active');
+            // Go back to the main page
+            showPage(1);
+        });
+
+        // Breathing animation
+        const breathCircle = document.getElementById('breathingCircle');
+        const breathText = document.getElementById('breath-text');
+       
+        breathInterval = setInterval(() => {
+            if (isBreathingIn) {
+                breathText.textContent = "Breathe In";
+                isBreathingIn = false;
+            } else {
+                breathText.textContent = "Breathe Out";
+                isBreathingIn = true;
+            }
+        }, 4000);
+
+        // Sound controls - FIXED FLUTE SOUND
+        const fluteAudio = document.getElementById('fluteAudio');
+        const natureAudio = document.getElementById('natureAudio');
+       
+        document.getElementById('natureSound').addEventListener('click', function() {
+            stopAllSounds();
+            natureAudio.play().then(() => {
+                showMessage("Playing calming nature sounds...");
+                setActiveButton(this);
+            }).catch(e => {
+                console.log("Audio play failed:", e);
+                showMessage("Nature sounds ready. Click again to play.");
+            });
+        });
+
+        document.getElementById('fluteSound').addEventListener('click', function() {
+            stopAllSounds();
+            fluteAudio.play().then(() => {
+                showMessage("Playing Krishna's flute...");
+                setActiveButton(this);
+            }).catch(e => {
+                console.log("Audio play failed:", e);
+                showMessage("Flute music ready. Click again to play.");
+            });
+        });
+
+        document.getElementById('stopSound').addEventListener('click', function() {
+            stopAllSounds();
+            showMessage("Sounds stopped");
+            clearActiveButtons();
+        });
+
+        function setActiveButton(button) {
+            clearActiveButtons();
+            button.classList.add('active');
+        }
+
+        function clearActiveButtons() {
+            document.querySelectorAll('.sound-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+        }
+
+        function stopAllSounds() {
+            fluteAudio.pause();
+            fluteAudio.currentTime = 0;
+            natureAudio.pause();
+            natureAudio.currentTime = 0;
+        }
+
+        // =============== LEVEL 1: SHAPES GAME - FIXED ===============
+        function initializeShapesGame() {
+            const container = document.getElementById('shapesGameContainer');
+            container.innerHTML = '';
+            shapesPlaced = 0;
+           
+            // Define shapes with their properties
+            const shapes = [
+                {
+                    type: 'circle',
+                    color: '#a8d8ea',
+                    name: 'Circle',
+                    emoji: '⭕'
+                },
+                {
+                    type: 'square',
+                    color: '#c7f0d8',
+                    name: 'Square',
+                    emoji: '⬜'
+                },
+                {
+                    type: 'triangle',
+                    color: '#ffd6e7',
+                    name: 'Triangle',
+                    emoji: '🔺'
+                },
+                {
+                    type: 'rectangle',
+                    color: '#fff9c4',
+                    name: 'Rectangle',
+                    emoji: '📏'
+                },
+                {
+                    type: 'star',
+                    color: '#d8c7ff',
+                    name: 'Star',
+                    emoji: '⭐'
+                },
+                {
+                    type: 'heart',
+                    color: '#ffb6c1',
+                    name: 'Heart',
+                    emoji: '❤️'
+                }
+            ];
+           
+            totalShapes = shapes.length;
+           
+            // Create two rows
+            const outlineRow = document.createElement('div');
+            outlineRow.className = 'shapes-row';
+            outlineRow.id = 'outlineRow';
+           
+            const shapeRow = document.createElement('div');
+            shapeRow.className = 'shapes-row';
+            shapeRow.id = 'shapeRow';
+           
+            // Create shape outlines (drop zones) in first row
+            shapes.forEach((shape, index) => {
+                const shapeItem = document.createElement('div');
+                shapeItem.className = 'shape-item';
+               
+                const outline = document.createElement('div');
+                outline.className = `shape-outline ${shape.type}`;
+                outline.id = `outline-${index}`;
+                outline.dataset.shapeType = shape.type;
+               
+                const label = document.createElement('div');
+                label.className = 'shape-label';
+                label.textContent = shape.name;
+               
+                shapeItem.appendChild(outline);
+                shapeItem.appendChild(label);
+                outlineRow.appendChild(shapeItem);
+               
+                // Add drop event listener
+                outline.addEventListener('dragover', handleDragOver);
+                outline.addEventListener('drop', handleDrop);
+                outline.addEventListener('touchmove', handleTouchMove, { passive: false });
+                outline.addEventListener('touchend', handleTouchEnd);
+            });
+           
+            // Create draggable shapes in second row (shuffled)
+            const shuffledShapes = [...shapes].sort(() => Math.random() - 0.5);
+           
+            shuffledShapes.forEach((shape, index) => {
+                const shapeItem = document.createElement('div');
+                shapeItem.className = 'shape-item';
+               
+                const shapeElement = document.createElement('div');
+                shapeElement.className = `shape ${shape.type}`;
+                shapeElement.id = `shape-${index}`;
+                shapeElement.dataset.shapeType = shape.type;
+                shapeElement.dataset.originalIndex = shapes.findIndex(s => s.type === shape.type);
+                shapeElement.draggable = true;
+                shapeElement.textContent = shape.emoji;
+               
+                // Set color based on shape type
+                if (shape.type === 'triangle') {
+                    shapeElement.style.borderBottomColor = shape.color;
+                } else if (shape.type === 'star' || shape.type === 'heart') {
+                    // Already handled by CSS
+                } else {
+                    shapeElement.style.backgroundColor = shape.color;
+                }
+               
+                const label = document.createElement('div');
+                label.className = 'shape-label';
+                label.textContent = shape.name;
+               
+                shapeItem.appendChild(shapeElement);
+                shapeItem.appendChild(label);
+                shapeRow.appendChild(shapeItem);
+               
+                // Add drag event listeners
+                shapeElement.addEventListener('dragstart', handleDragStart);
+                shapeElement.addEventListener('dragend', handleDragEnd);
+               
+                // Add touch event listeners for mobile
+                shapeElement.addEventListener('touchstart', handleTouchStart, { passive: false });
+            });
+           
+            container.appendChild(outlineRow);
+            container.appendChild(shapeRow);
+        }
+
+        function handleDragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.id);
+            e.target.classList.add('dragging');
+            setTimeout(() => {
+                e.target.style.opacity = '0.4';
+            }, 0);
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+            e.target.style.opacity = '1';
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const id = e.dataTransfer.getData('text/plain');
+            const draggable = document.getElementById(id);
+            const dropzone = e.target;
+           
+            // Check if we're dropping on an outline
+            if (!dropzone.classList.contains('shape-outline')) return;
+           
+            // Check if shape matches outline
+            const shapeType = draggable.dataset.shapeType;
+            const outlineType = dropzone.dataset.shapeType;
+           
+            if (shapeType === outlineType) {
+                // Position the shape inside the outline
+                draggable.style.position = 'absolute';
+                draggable.style.top = '50%';
+                draggable.style.left = '50%';
+                draggable.style.transform = 'translate(-50%, -50%)';
+                draggable.style.margin = '0';
+                dropzone.appendChild(draggable);
+               
+                // Make it non-draggable after correct placement
+                draggable.draggable = false;
+                draggable.classList.remove('dragging');
+                draggable.style.opacity = '1';
+                draggable.style.cursor = 'default';
+               
+                // Remove touch events
+                draggable.ontouchstart = null;
+               
+                shapesPlaced++;
+               
+                // Show success message
+                showSuccessAnimation(dropzone);
+                showMessage("Perfect! You found the right home for the " + draggable.dataset.shapeType);
+               
+                // Check if all shapes are placed
+                if (shapesPlaced === totalShapes) {
+                    setTimeout(() => {
+                        showMessage("Amazing! You've placed all shapes correctly!");
+                    }, 500);
+                }
+            } else {
+                showMessage("That's okay! Try a different outline.");
+                draggable.style.opacity = '1';
+            }
+        }
+
+        // Touch events for mobile
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let draggedElement = null;
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            draggedElement = e.target;
+           
+            draggedElement.classList.add('dragging');
+            draggedElement.style.opacity = '0.4';
+        }
+
+        function handleTouchMove(e) {
+            if (!draggedElement) return;
+            e.preventDefault();
+           
+            const touch = e.touches[0];
+            const deltaX = touch.clientX - touchStartX;
+            const deltaY = touch.clientY - touchStartY;
+           
+            draggedElement.style.position = 'fixed';
+            draggedElement.style.left = (touch.clientX - draggedElement.offsetWidth / 2) + 'px';
+            draggedElement.style.top = (touch.clientY - draggedElement.offsetHeight / 2) + 'px';
+            draggedElement.style.zIndex = '1000';
+        }
+
+        function handleTouchEnd(e) {
+            if (!draggedElement) return;
+           
+            const touch = e.changedTouches[0];
+            const elements = document.elementsFromPoint(touch.clientX, touch.clientY);
+            const dropzone = elements.find(el => el.classList.contains('shape-outline'));
+           
+            if (dropzone) {
+                // Check if shape matches outline
+                const shapeType = draggedElement.dataset.shapeType;
+                const outlineType = dropzone.dataset.shapeType;
+               
+                if (shapeType === outlineType) {
+                    // Position the shape inside the outline
+                    draggedElement.style.position = 'absolute';
+                    draggedElement.style.top = '50%';
+                    draggedElement.style.left = '50%';
+                    draggedElement.style.transform = 'translate(-50%, -50%)';
+                    draggedElement.style.margin = '0';
+                    dropzone.appendChild(draggedElement);
+                   
+                    // Make it non-draggable after correct placement
+                    draggedElement.draggable = false;
+                    draggedElement.classList.remove('dragging');
+                    draggedElement.style.opacity = '1';
+                    draggedElement.style.cursor = 'default';
+                   
+                    shapesPlaced++;
+                   
+                    // Show success message
+                    showSuccessAnimation(dropzone);
+                    showMessage("Perfect! You found the right home!");
+                   
+                    // Check if all shapes are placed
+                    if (shapesPlaced === totalShapes) {
+                        setTimeout(() => {
+                            showMessage("Amazing! You've placed all shapes correctly!");
+                        }, 500);
+                    }
+                } else {
+                    showMessage("That's okay! Try a different outline.");
+                }
+            }
+           
+            // Reset dragged element
+            draggedElement.classList.remove('dragging');
+            draggedElement.style.opacity = '1';
+            draggedElement.style.position = '';
+            draggedElement.style.left = '';
+            draggedElement.style.top = '';
+            draggedElement.style.zIndex = '';
+            draggedElement = null;
+        }
+
+        function showSuccessAnimation(element) {
+            const success = document.createElement('div');
+            success.className = 'success-animation';
+            success.textContent = '✓';
+            success.style.position = 'absolute';
+            success.style.top = '50%';
+            success.style.left = '50%';
+            element.appendChild(success);
+           
+            setTimeout(() => {
+                success.remove();
+            }, 1000);
+        }
+
+        // =============== LEVEL 2: CLOCK GAME - FIXED WITH PROPER NUMBER POSITIONS ===============
+        function initializeClockGame() {
+            // Generate clock numbers with proper positions like a real clock
+            const clockNumbers = document.getElementById('clockNumbers');
+            clockNumbers.innerHTML = '';
+           
+            // Position numbers like a real clock (12 at top, 3 at right, etc.)
+            const positions = [
+                {num: 12, top: '15%', left: '50%'},
+                {num: 1, top: '25%', left: '75%'},
+                {num: 2, top: '40%', left: '90%'},
+                {num: 3, top: '60%', left: '95%'},
+                {num: 4, top: '80%', left: '90%'},
+                {num: 5, top: '90%', left: '75%'},
+                {num: 6, top: '95%', left: '50%'},
+                {num: 7, top: '90%', left: '25%'},
+                {num: 8, top: '80%', left: '10%'},
+                {num: 9, top: '60%', left: '5%'},
+                {num: 10, top: '40%', left: '10%'},
+                {num: 11, top: '25%', left: '25%'}
+            ];
+           
+            positions.forEach(pos => {
+                const number = document.createElement('div');
+                number.className = 'clock-number';
+                number.style.top = pos.top;
+                number.style.left = pos.left;
+                number.textContent = pos.num;
+                clockNumbers.appendChild(number);
+            });
+           
+            // Set a random time target
+            generateRandomTime();
+           
+            // Set up clock dragging
+            setupClockDragging();
+           
+            // Set initial clock position to match target
+            updateClockHandsToTarget();
+        }
+
+        function setupClockDragging() {
+            const clock = document.getElementById('clock');
+            const hourHand = document.getElementById('hourHand');
+            const minuteHand = document.getElementById('minuteHand');
+           
+            // Mouse events
+            clock.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+           
+            // Touch events
+            clock.addEventListener('touchstart', startDragTouch, { passive: false });
+            document.addEventListener('touchmove', dragTouch, { passive: false });
+            document.addEventListener('touchend', stopDrag);
+           
+            function startDrag(e) {
+                isDraggingClock = true;
+                const rect = clock.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const angle = calculateAngle(e.clientX, e.clientY, centerX, centerY);
+               
+                // Determine which hand is closer to the click
+                const hourAngle = getHandAngle(hourHand);
+                const minuteAngle = getHandAngle(minuteHand);
+                const hourDiff = Math.abs(hourAngle - angle);
+                const minuteDiff = Math.abs(minuteAngle - angle);
+               
+                draggedHand = hourDiff < minuteDiff ? hourHand : minuteHand;
+                e.preventDefault();
+            }
+           
+            function startDragTouch(e) {
+                isDraggingClock = true;
+                const touch = e.touches[0];
+                const rect = clock.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const angle = calculateAngle(touch.clientX, touch.clientY, centerX, centerY);
+               
+                const hourAngle = getHandAngle(hourHand);
+                const minuteAngle = getHandAngle(minuteHand);
+                const hourDiff = Math.abs(hourAngle - angle);
+                const minuteDiff = Math.abs(minuteAngle - angle);
+               
+                draggedHand = hourDiff < minuteDiff ? hourHand : minuteHand;
+                e.preventDefault();
+            }
+           
+            function drag(e) {
+                if (!isDraggingClock || !draggedHand) return;
+               
+                const rect = clock.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const angle = calculateAngle(e.clientX, e.clientY, centerX, centerY);
+               
+                updateHandAngle(draggedHand, angle);
+                e.preventDefault();
+            }
+           
+            function dragTouch(e) {
+                if (!isDraggingClock || !draggedHand) return;
+               
+                const touch = e.touches[0];
+                const rect = clock.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const angle = calculateAngle(touch.clientX, touch.clientY, centerX, centerY);
+               
+                updateHandAngle(draggedHand, angle);
+                e.preventDefault();
+            }
+           
+            function stopDrag() {
+                isDraggingClock = false;
+                draggedHand = null;
+            }
+        }
+
+        function calculateAngle(x, y, centerX, centerY) {
+            const dx = x - centerX;
+            const dy = y - centerY;
+            let angle = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+            if (angle < 0) angle += 360;
+            return angle;
+        }
+
+        function getHandAngle(hand) {
+            const transform = hand.style.transform || 'translateX(-50%) rotate(0deg)';
+            const match = transform.match(/rotate\(([-0-9.]+)deg\)/);
+            return match ? parseFloat(match[1]) : 0;
+        }
+
+        function updateHandAngle(hand, angle) {
+            if (hand.id === 'minuteHand') {
+                // Snap to 6-degree increments for minutes (each minute = 6 degrees)
+                angle = Math.round(angle / 6) * 6;
+            } else {
+                // For hour hand, make it move with minutes too
+                const minuteAngle = getHandAngle(document.getElementById('minuteHand'));
+                angle = (Math.round(angle / 30) * 30) + (minuteAngle / 12);
+            }
+           
+            hand.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+        }
+
+        function generateRandomTime() {
+            const hours = Math.floor(Math.random() * 12) + 1;
+            const minutes = Math.floor(Math.random() * 12) * 5; // 0, 5, 10, ... 55
+            const period = Math.random() > 0.5 ? "PM" : "AM";
+           
+            currentTimeTarget = { hours, minutes, period };
+           
+            const timeDisplay = document.getElementById('timeDisplay');
+            const minutesDisplay = minutes < 10 ? `0${minutes}` : minutes;
+            timeDisplay.textContent = `${hours}:${minutesDisplay} ${period}`;
+        }
+
+        function updateClockHandsToTarget() {
+            const hourHand = document.getElementById('hourHand');
+            const minuteHand = document.getElementById('minuteHand');
+           
+            // Calculate angles
+            const minuteAngle = currentTimeTarget.minutes * 6; // 360/60 = 6 degrees per minute
+            const hourAngle = (currentTimeTarget.hours % 12) * 30 + (currentTimeTarget.minutes / 2); // 360/12 = 30 degrees per hour
+           
+            // Apply angles
+            hourHand.style.transform = `translateX(-50%) rotate(${hourAngle}deg)`;
+            minuteHand.style.transform = `translateX(-50%) rotate(${minuteAngle}deg)`;
+        }
+
+        function checkTime() {
+            const hourHand = document.getElementById('hourHand');
+            const minuteHand = document.getElementById('minuteHand');
+           
+            // Get current angles
+            const hourAngle = getHandAngle(hourHand);
+            const minuteAngle = getHandAngle(minuteHand);
+           
+            // Convert angles to time
+            const minute = Math.round(minuteAngle / 6);
+            const adjustedMinute = minute === 60 ? 0 : minute;
+            const hour = Math.round((hourAngle - (adjustedMinute / 2)) / 30) % 12;
+            const adjustedHour = hour === 0 ? 12 : hour;
+           
+            // Check if close enough to target (allow some tolerance)
+            const hourDiff = Math.abs(adjustedHour - currentTimeTarget.hours);
+            const minuteDiff = Math.abs(adjustedMinute - currentTimeTarget.minutes);
+           
+            // Adjust for 12-hour format
+            const hourCheck = hourDiff === 0 || hourDiff === 11;
+            const minuteCheck = minuteDiff <= 5;
+           
+            if (hourCheck && minuteCheck) {
+                showMessage("Excellent! You set the clock perfectly!");
+            } else {
+                showMessage("Good effort! Time can be tricky. Keep practicing.");
+            }
+        }
+
+        // =============== LEVEL 3: SOCIAL SITUATIONS - ADDED MORE ===============
+        const socialSituations = [
+            {
+                text: "Someone says 'Hello!' to you.",
+                options: [
+                    "Say 'Hello' back with a smile",
+                    "Wave and say 'Hi'",
+                    "Give a small nod and smile",
+                    "Say 'Hello, how are you?'"
+                ],
+                feedback: [
+                    "A friendly smile is a wonderful response!",
+                    "Waving is a great way to say hello from a distance.",
+                    "A nod and smile shows you acknowledge them kindly.",
+                    "Asking how someone is shows you care about them."
+                ]
+            },
+            {
+                text: "You see someone who looks sad or upset.",
+                options: [
+                    "Ask gently if they're okay",
+                    "Offer to sit quietly with them",
+                    "Share something that makes you happy",
+                    "Draw them a cheerful picture"
+                ],
+                feedback: [
+                    "Asking shows empathy and care for others.",
+                    "Sometimes quiet company is the best comfort.",
+                    "Sharing happiness can help brighten someone's day.",
+                    "A drawing is a thoughtful and creative gesture."
+                ]
+            },
+            {
+                text: "Someone asks for help finding their lost toy.",
+                options: [
+                    "Help them look for it",
+                    "Ask what the toy looks like",
+                    "Suggest looking where they last played",
+                    "Ask a grown-up to help search"
+                ],
+                feedback: [
+                    "Helping others is a kind and generous act.",
+                    "Asking questions helps you understand better.",
+                    "Good thinking! Retracing steps often works.",
+                    "Asking for help when needed is very smart."
+                ]
+            },
+            {
+                text: "You want to play with someone who is busy.",
+                options: [
+                    "Wait patiently until they're free",
+                    "Ask if you can join them later",
+                    "Find another activity to do",
+                    "Ask if they need help finishing"
+                ],
+                feedback: [
+                    "Patience is a wonderful quality to have.",
+                    "Planning for later shows good communication.",
+                    "Finding another activity shows creativity.",
+                    "Offering help is very thoughtful and kind."
+                ]
+            },
+            {
+                text: "Someone shares their snack with you.",
+                options: [
+                    "Say 'Thank you' and accept it",
+                    "Share something of yours in return",
+                    "Say 'That's kind of you, thank you'",
+                    "Offer to share your snack next time"
+                ],
+                feedback: [
+                    "Accepting kindness graciously is important.",
+                    "Sharing in return creates friendship bonds.",
+                    "Acknowledging kindness makes people feel good.",
+                    "Planning future sharing shows generosity."
+                ]
+            },
+            {
+                text: "You accidentally bump into someone.",
+                options: [
+                    "Say 'Sorry, are you okay?'",
+                    "Check if they need help",
+                    "Say 'Excuse me, I didn't see you'",
+                    "Make sure they're not hurt"
+                ],
+                feedback: [
+                    "Apologizing shows you care about others.",
+                    "Checking on someone shows responsibility.",
+                    "Being polite even by accident is important.",
+                    "Making sure someone is safe is very kind."
+                ]
+            },
+            {
+                text: "Someone is talking loudly and it's overwhelming.",
+                options: [
+                    "Politely ask if they can speak softer",
+                    "Move to a quieter space",
+                    "Use noise-canceling headphones",
+                    "Take deep breaths to stay calm"
+                ],
+                feedback: [
+                    "Asking politely shows good communication.",
+                    "Finding a calm space is a smart strategy.",
+                    "Using tools to manage sensory input is wise.",
+                    "Breathing exercises help maintain calmness."
+                ]
+            },
+            {
+                text: "You receive a gift you don't particularly like.",
+                options: [
+                    "Say 'Thank you, I appreciate your thought'",
+                    "Focus on the effort they made",
+                    "Find one thing you like about it",
+                    "Remember it's the thought that counts"
+                ],
+                feedback: [
+                    "Thanking someone shows good manners.",
+                    "Appreciating effort is more important than the gift.",
+                    "Finding something positive is a great skill.",
+                    "Understanding the intention behind gifts is kind."
+                ]
+            }
+        ];
+
+        function initializeSocialSituations() {
+            currentSituationIndex = 0;
+            displaySituation(currentSituationIndex);
+        }
+
+        function displaySituation(index) {
+            const situation = socialSituations[index];
+            document.getElementById('situationText').textContent = situation.text;
+           
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+           
+            situation.options.forEach((option, optionIndex) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => {
+                    // Remove selected class from all options
+                    document.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    // Add selected class to clicked option
+                    optionElement.classList.add('selected');
+                   
+                    selectOption(optionIndex);
+                });
+                optionsContainer.appendChild(optionElement);
+            });
+           
+            // Hide feedback from previous situation
+            document.getElementById('situationFeedback').style.display = 'none';
+        }
+
+        function selectOption(optionIndex) {
+            const situation = socialSituations[currentSituationIndex];
+            const feedbackText = situation.feedback[optionIndex];
+           
+            document.getElementById('feedbackText').textContent = feedbackText;
+            document.getElementById('situationFeedback').style.display = 'block';
+           
+            showMessage("Great choice! Every response has its own value.");
+        }
+
+        // =============== NAVIGATION AND EVENT LISTENERS ===============
+        document.getElementById('startBtn').addEventListener('click', () => {
+            showPage(2);
+        });
+
+        document.getElementById('beginBtn').addEventListener('click', () => {
+            showPage(3);
+        });
+
+        document.getElementById('shuffleShapesBtn').addEventListener('click', () => {
+            initializeShapesGame();
+            showMessage("Shapes mixed up! Try matching them again.");
+        });
+
+        document.getElementById('nextLevel1Btn').addEventListener('click', () => {
+            showPage(4);
+        });
+
+        document.getElementById('newTimeBtn').addEventListener('click', () => {
+            generateRandomTime();
+            showMessage("New time set! Try to match it on the clock.");
+        });
+
+        document.getElementById('checkTimeBtn').addEventListener('click', checkTime);
+
+        document.getElementById('nextLevel2Btn').addEventListener('click', () => {
+            showPage(5);
+        });
+
+        document.getElementById('nextSituationBtn').addEventListener('click', () => {
+            currentSituationIndex = (currentSituationIndex + 1) % socialSituations.length;
+            displaySituation(currentSituationIndex);
+        });
+
+        document.getElementById('nextLevel3Btn').addEventListener('click', () => {
+            showPage(6);
+        });
+
+        document.getElementById('feedbackBtn').addEventListener('click', () => {
+            showPage(7);
+        });
+
+        document.getElementById('restartBtn').addEventListener('click', () => {
+            showPage(1);
+        });
+
+        document.getElementById('backToThankYouBtn').addEventListener('click', () => {
+            showPage(6);
+        });
+
+        document.getElementById('homeBtn').addEventListener('click', () => {
+            showPage(1);
+        });
+
+        // Star rating for feedback
+        const stars = document.querySelectorAll('.star');
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const value = parseInt(star.dataset.value);
+                userRating = value;
+                document.getElementById('rating').value = value;
+               
+                stars.forEach((s, index) => {
+                    if (index < value) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+           
+            // Hover effect
+            star.addEventListener('mouseover', () => {
+                const value = parseInt(star.dataset.value);
+                stars.forEach((s, index) => {
+                    if (index < value) {
+                        s.style.color = '#ffd700';
+                    }
+                });
+            });
+           
+            star.addEventListener('mouseout', () => {
+                const value = userRating;
+                stars.forEach((s, index) => {
+                    if (index >= value) {
+                        s.style.color = '';
+                    }
+                });
+            });
+        });
+
+        // Feedback form submission
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+           
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const rating = document.getElementById('rating').value;
+            const like = document.getElementById('like').value;
+            const suggestions = document.getElementById('suggestions').value;
+           
+            // Show success message
+            showMessage("Thank you for your feedback! Your thoughts are valuable.");
+           
+            // In a real app, you would send this data to a server
+            // For demo purposes, we'll log it and show a message
+            console.log('Feedback submitted:', { name, email, rating, like, suggestions });
+           
+            // Reset form
+            this.reset();
+            stars.forEach(star => {
+                star.classList.remove('active');
+                star.style.color = '';
+            });
+            userRating = 0;
+           
+            // Return to thank you page after 3 seconds
+            setTimeout(() => {
+                showPage(6);
+            }, 3000);
+        });
+
+        // =============== UTILITY FUNCTIONS ===============
+        function showMessage(text) {
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = text;
+            messageElement.classList.add('active');
+           
+            setTimeout(() => {
+                messageElement.classList.remove('active');
+            }, 3000);
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage(1);
+           
+            // Preload audio files
+            fluteAudio.load();
+            natureAudio.load();
+           
+            // Show welcome message after a delay
+            setTimeout(() => {
+                showMessage("Welcome to WithYou - Your gentle companion for daily learning!");
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
